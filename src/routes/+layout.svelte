@@ -1,0 +1,13 @@
+<script lang="ts">
+	import favicon from '$lib/assets/favicon.svg';
+	import '../app.css';
+
+	let { children } = $props();
+</script>
+
+<svelte:head>
+	<title>puni.cc</title>
+	<link rel="icon" href={favicon} type="image/svg+xml" />
+</svelte:head>
+
+{@render children()}
