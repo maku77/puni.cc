@@ -1,5 +1,10 @@
 <script lang="ts">
 	import { apps } from '$lib/apps.js';
+
+	function getDescription(app: import('$lib/apps.js').App): string {
+		const lang = navigator.language;
+		return lang.startsWith('ja') ? app.description.ja : app.description.en;
+	}
 </script>
 
 <svelte:head>
@@ -15,9 +20,14 @@
 	<section class="grid">
 		{#each apps as app (app.url)}
 			<a href={app.url} class="card" target="_blank" rel="noopener noreferrer">
+				{#if app.image}
+					<div class="card-image">
+						<img src={app.image} alt={app.name} />
+					</div>
+				{/if}
 				<div class="card-body">
 					<h2>{app.name}</h2>
-					<p>{app.description}</p>
+					<p>{getDescription(app)}</p>
 				</div>
 				<div class="card-footer">
 					{#each app.tags as tag (tag)}
@@ -67,7 +77,7 @@
 		background-color: #1a1a2e;
 		border: 1px solid #2a2a44;
 		border-radius: 12px;
-		padding: 1.5rem;
+		overflow: hidden;
 		transition:
 			transform 0.15s ease,
 			box-shadow 0.15s ease,
@@ -78,6 +88,24 @@
 		transform: translateY(-3px);
 		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 		border-color: #5555aa;
+	}
+
+	.card-image {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		overflow: hidden;
+		background-color: #0d0d1a;
+	}
+
+	.card-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	.card-body {
+		padding: 1.5rem 1.5rem 0;
 	}
 
 	.card-body h2 {
@@ -97,7 +125,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.4rem;
-		margin-top: 1.25rem;
+		padding: 1.25rem 1.5rem 1.5rem;
 	}
 
 	.tag {
