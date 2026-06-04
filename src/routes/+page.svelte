@@ -2,7 +2,7 @@
 	import { apps } from '$lib/apps.js';
 
 	function getDescription(app: import('$lib/apps.js').App): string {
-		const lang = navigator.language;
+		const lang = (typeof navigator !== 'undefined' ? navigator.language : null) ?? 'en';
 		return lang.startsWith('ja') ? app.description.ja : app.description.en;
 	}
 </script>
